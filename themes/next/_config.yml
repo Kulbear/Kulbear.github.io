@@ -202,11 +202,16 @@ github_banner: https://github.com/kulbear || Follow me on GitHub
 
 # Blog rolls
 links_icon: link
-links_title: Links
-links_layout: block
-#links_layout: inline
-#links:
-  #Title: http://example.com
+links_title: 这里的链接难道不好奇吗？
+# links_layout: block
+links_layout: inline
+links:
+  哈士奇的小窝: https://manjusaka.itscoder.com
+  我的田的日记: http://js.chenlei.me/archives/
+  童童的领英: https://www.linkedin.com/in/zytong/
+  鳗鱼的 Blog: https://manyu.site/
+  园长的同性交友网站: https://github.com/jingkecn
+  
 
 # Sidebar Avatar
 avatar:

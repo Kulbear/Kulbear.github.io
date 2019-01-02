@@ -5,4 +5,14 @@ type: page
 comments: false
 ---
 
-The user is too lazy to leave a short bio here.
+Machine Learning Developer @ AltaML Inc.
+
+M.Sc Student @ University of Alberta
+
+博而不精，啥都会一点...
+
+常混迹 GitHub 和 Kaggle，热衷于 Computer Vision，Machine Learning 和一些相关的领域
+
+很遗憾，目前还没有什么拿得出手的开源项目。
+
+: ) ) ) 
