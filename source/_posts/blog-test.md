@@ -1,7 +1,7 @@
 ---
 title: Blog Test
 type: post
-category: Random
+category: Personal
 tags: [中文]
 description: Testing blog plugins only. Nothing special inside.
 ---
@@ -11,7 +11,6 @@ description: Testing blog plugins only. Nothing special inside.
 Inline: $\frac{y'}{1-y'} = \frac{y'}{1-y'} * \frac{m^-}{m^+}$
 
 Single-line: $$\frac{y'}{1-y'} = \frac{y'}{1-y'} * \frac{m^-}{m^+}$$
-
 
 ## Code Test
 
