@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我们的队伍在前两天结束的 Kaggle 竞赛 Human Protein Atlas Image Classification 中获得了最终第九名的成绩，这里做一下简单的复盘和总结。">
+<meta name="keywords" content="中文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kaggle Human Protein Atlas 蛋白质分类比赛总结和复盘">
+<meta property="og:url" content="https://kulbear.github.io/archives/protein/index.html">
+<meta property="og:site_name" content="Kulbear&#39;s Workspace">
+<meta property="og:description" content="我们的队伍在前两天结束的 Kaggle 竞赛 Human Protein Atlas Image Classification 中获得了最终第九名的成绩，这里做一下简单的复盘和总结。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://storage.googleapis.com/kaggle-media/competitions/proteins/description_NACC_cropped_opt.png">
+<meta property="og:updated_time" content="2019-01-12T15:20:59.796Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kaggle Human Protein Atlas 蛋白质分类比赛总结和复盘">
+<meta name="twitter:description" content="我们的队伍在前两天结束的 Kaggle 竞赛 Human Protein Atlas Image Classification 中获得了最终第九名的成绩，这里做一下简单的复盘和总结。">
+<meta name="twitter:image" content="https://storage.googleapis.com/kaggle-media/competitions/proteins/description_NACC_cropped_opt.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kulbear.github.io/archives/protein/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Kaggle Human Protein Atlas 蛋白质分类比赛总结和复盘 | Kulbear's Workspace</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131503440-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131503440-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kulbear's Workspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives menu-item-active">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/kulbear" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kulbear.github.io/archives/protein/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ji Yang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kulbear's Workspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kaggle Human Protein Atlas 蛋白质分类比赛总结和复盘
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-12 08:09:26 / Modified: 08:20:59" itemprop="dateCreated datePublished" datetime="2019-01-12T08:09:26-07:00">2019-01-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Kaggle/" itemprop="url" rel="index"><span itemprop="name">Kaggle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/archives/protein/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="archives/protein/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">我们的队伍在前两天结束的 Kaggle 竞赛 Human Protein Atlas Image Classification 中获得了最终第九名的成绩，这里做一下简单的复盘和总结。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="intro">Intro</h2>
+<p>这个比赛是典型的 <a href="https://scikit-learn.org/stable/modules/multiclass.html#multiclass-and-multilabel-algorithms" target="_blank" rel="noopener">Multitask + Multilabel</a>，每张图可能包含 0～n 个不同的 label，并且每种 label 的分布差异较大。<a href="https://www.kaggle.com/c/human-protein-atlas-image-classification/discussion/73938" target="_blank" rel="noopener">赛前必读之一</a>。</p>
+<p>数据中包含的图片（经过处理合并后）大概长这个样子： <img style="max-width:200px; margin-top:10px" src="https://storage.googleapis.com/kaggle-media/competitions/proteins/description_NACC_cropped_opt.png"></p>
+<h2 id="dataset">Dataset</h2>
+<p>训练集 31072 张图，测试 11702 张图。Kaggle 上直接可下载的数据统一为 512 x 512 Grayscale 的图，每张图对应一个合成图（如简介中例子）的一个通道。每一张合成图对应四张图，分别是 R、G、B、Y 通道的灰图。外部数据大约 74000 张包含 4 通道的和未知数量（据说也在 70000 左右）的 label noise 较大的 3 通道图，即没有 Y 通道。我只下载了约 74000 张的 4 通道图，3 通道图没有想到特别好的使用方法。这里值得一提的是在讨论区有很多人提到其中 Y 通道对最终结果几乎没有影响，不过这个对于运算效率来讲影响不大，我并没有去花时间验证这一点。</p>
+<h3 id="external-data">External Data</h3>
+<p>和官方数据不同的是，外部数据即使图片名称上写的是蓝色（<code>*_blue.jpg</code>），实际上也是存储为 JPEG 格式的 RGB 图。重点来了，非对应名字的通道仅仅是用来染色的，对于蓝色通道的图来说，只有蓝色通道的是真的数据，也就是一张 grayscale 的图片，而 G 和 R 通道的只是为了辅助显示颜色而存在。</p>
+<p>“正确”的方法是，对蓝色的 JPG 图，取出 B 通道，直接存为 grayscale，对于红色的图，取出 R 通道，以此类推。黄色图较为特殊，是由图中的 G 和 R 任意通道表达的，即这两个通道中的数值 *** 应该 *** 是一样的。然后这里就坑爹了，这个 HPA 官方脑子有坑存的是 JPEG，这个有损压缩造成的 G 和 R 数值有偏差，不过我选择只取了 G 通道。阴差阳错的是之后简单实验了一下，选择 R 通道的话效果会变差若干个点，节省了一些时间，也算蒙上的...</p>
+<h3 id="data-augmentation">Data Augmentation</h3>
+<p>一共尝试了两个版本的 augmentation，第二个效果比第一种简单的稍好一些，但是生成每个 batch 的速度稍微慢一点。</p>
+<p>第一版：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">augment_img = iaa.Sequential([</span><br><span class="line">    iaa.OneOf([</span><br><span class="line">        iaa.Affine(rotate=<span class="number">90</span>),</span><br><span class="line">        iaa.Affine(rotate=<span class="number">180</span>),</span><br><span class="line">        iaa.Affine(rotate=<span class="number">270</span>),</span><br><span class="line">        iaa.Affine(shear=(<span class="number">-30</span>, <span class="number">30</span>)),</span><br><span class="line">        iaa.Fliplr(<span class="number">0.5</span>),</span><br><span class="line">        iaa.Flipud(<span class="number">0.5</span>),</span><br><span class="line">    ])], random_order=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>第二版（来自队友 Pavel）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Compose([</span><br><span class="line">    RandomRotate90(),</span><br><span class="line">    Flip(),</span><br><span class="line">    Transpose(),</span><br><span class="line">    OneOf([</span><br><span class="line">        IAAAdditiveGaussianNoise(),</span><br><span class="line">        GaussNoise(),</span><br><span class="line">    ], p=<span class="number">0.2</span>),</span><br><span class="line">    OneOf([</span><br><span class="line">        MotionBlur(p=<span class="number">.2</span>),</span><br><span class="line">        MedianBlur(blur_limit=<span class="number">3</span>, p=<span class="number">.1</span>),</span><br><span class="line">        Blur(blur_limit=<span class="number">3</span>, p=<span class="number">.1</span>),</span><br><span class="line">    ], p=<span class="number">0.2</span>),</span><br><span class="line">    ShiftScaleRotate(shift_limit=<span class="number">0.2</span>, scale_limit=<span class="number">0.2</span>, rotate_limit=<span class="number">45</span>, p=<span class="number">.5</span>),</span><br><span class="line">    OneOf([</span><br><span class="line">        OpticalDistortion(p=<span class="number">0.3</span>),</span><br><span class="line">        GridDistortion(p=<span class="number">.1</span>),</span><br><span class="line">        IAAPiecewiseAffine(p=<span class="number">0.3</span>),</span><br><span class="line">    ], p=<span class="number">0.2</span>),</span><br><span class="line">    OneOf([</span><br><span class="line">        IAASharpen(),</span><br><span class="line">        IAAEmboss(),</span><br><span class="line">        RandomBrightnessContrast()</span><br><span class="line">    ], p=<span class="number">0.3</span>)</span><br><span class="line">], p=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>两种方法都没有做 Normalize。</p>
+<h3 id="label-distribution-and-oversample">Label Distribution and Oversample</h3>
+<p>官方训练数据的数据分布如下，另，这个分布没有计算外部数据。其他讨论可以参考上面的链接以及<a href="https://www.kaggle.com/c/human-protein-atlas-image-classification/discussion/74065" target="_blank" rel="noopener">这里</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">0 0.2537316</span><br><span class="line">1 0.0246938</span><br><span class="line">2 0.0713048</span><br><span class="line">3 0.0307392</span><br><span class="line">4 0.0365878</span><br><span class="line">5 0.0494860</span><br><span class="line">6 0.0198496</span><br><span class="line">7 0.0555709</span><br><span class="line">8 0.0010437</span><br><span class="line">9 0.0008861</span><br><span class="line">10 0.0005514</span><br><span class="line">11 0.0215234</span><br><span class="line">12 0.0135481</span><br><span class="line">13 0.0105746</span><br><span class="line">14 0.0209917</span><br><span class="line">15 0.0004135</span><br><span class="line">16 0.0104368</span><br><span class="line">17 0.0041353</span><br><span class="line">18 0.0177622</span><br><span class="line">19 0.0291836</span><br><span class="line">20 0.0033870</span><br><span class="line">21 0.0743768</span><br><span class="line">22 0.0157930</span><br><span class="line">23 0.0583868</span><br><span class="line">24 0.0063408</span><br><span class="line">25 0.1620259</span><br><span class="line">26 0.0064590</span><br><span class="line">27 0.0002166</span><br></pre></td></tr></table></figure>
+<p>28 种不同的 label 分布极为不均，我目前使用了<a href="https://www.kaggle.com/c/human-protein-atlas-image-classification/discussion/74374#437548" target="_blank" rel="noopener">这里</a>公开的 oversample 的代码，结合后面提到的交叉验证的 ShuffleSplit ，效果显著（提升了大概0.045个点，0.46~0.51+）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">train_df_orig=train_df.copy()    </span><br><span class="line">lows = [<span class="number">15</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">26</span>,<span class="number">15</span>,<span class="number">27</span>,<span class="number">15</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">17</span>,<span class="number">8</span>,<span class="number">15</span>,<span class="number">27</span>,<span class="number">27</span>,<span class="number">27</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lows:</span><br><span class="line">    target = str(i)</span><br><span class="line">    indicies = train_df_orig.loc[train_df_orig[<span class="string">'Target'</span>] == target].index</span><br><span class="line">    train_df = pd.concat([train_df,train_df_orig.loc[indicies]], ignore_index=<span class="keyword">True</span>)</span><br><span class="line">    indicies = train_df_orig.loc[train_df_orig[<span class="string">'Target'</span>].str.startswith(target+<span class="string">" "</span>)].index</span><br><span class="line">    train_df = pd.concat([train_df,train_df_orig.loc[indicies]], ignore_index=<span class="keyword">True</span>)</span><br><span class="line">    indicies = train_df_orig.loc[train_df_orig[<span class="string">'Target'</span>].str.endswith(<span class="string">" "</span>+target)].index</span><br><span class="line">    train_df = pd.concat([train_df,train_df_orig.loc[indicies]], ignore_index=<span class="keyword">True</span>)</span><br><span class="line">    indicies = train_df_orig.loc[train_df_orig[<span class="string">'Target'</span>].str.contains(<span class="string">" "</span>+target+<span class="string">" "</span>)].index</span><br><span class="line">    train_df = pd.concat([train_df,train_df_orig.loc[indicies]], ignore_index=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="cv">“CV”</h3>
+<p>和以往不太一样的是我这里除了最后使用的标准的 straitified 5-fold split 之外，在刚开始较长时间内使用的是 "5 boostrap", 即从数据集中 straitified 采样 5 次，测试集占比 25%。</p>
+<p>注：代码中的 <code>MultilabelStratifiedShuffleSplit</code> 来自<a href="https://github.com/trent-b/iterative-stratification" target="_blank" rel="noopener">这里</a>，Discussion 见<a href="https://www.kaggle.com/c/human-protein-atlas-image-classification/discussion/67819#latest-438702" target="_blank" rel="noopener">这里</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fold = <span class="number">0</span></span><br><span class="line"><span class="comment"># 5 bootstrap</span></span><br><span class="line">mskf = MultilabelStratifiedShuffleSplit(n_splits=<span class="number">5</span>, test_size=<span class="number">0.25</span>, random_state=RANDOM_SEED)</span><br><span class="line"><span class="comment"># 5 fold </span></span><br><span class="line"><span class="comment"># mskf = MultilabelStratifiedKFold(n_splits=5, random_state=RANDOM_SEED)</span></span><br><span class="line">all_files = pd.read_csv(<span class="string">'input/train.csv'</span>)</span><br><span class="line"><span class="comment"># one-hot multilabel, can be replaced with sklearn code...</span></span><br><span class="line">targets = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> tqdm(range(all_files.shape[<span class="number">0</span>])):  </span><br><span class="line">    y = np.array(list(map(int, all_files.iloc[i].Target.split(<span class="string">' '</span>))))</span><br><span class="line">    y = np.eye(<span class="number">28</span>, dtype=np.float)[y].sum(axis=<span class="number">0</span>)</span><br><span class="line">    targets.append(y)</span><br><span class="line">re = list(mskf.split(all_files.Id, targets))</span><br><span class="line">train_data_list = all_files.iloc[re[fold][<span class="number">0</span>]]</span><br><span class="line">val_data_list = all_files.iloc[re[fold][<span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+<p>这里的分割只在官方数据集上进行，然后将外部数据（～74000）全部加入了训练集，获得 ～98000 的训练数据。这个做法其实是有一定风险的：较大可能会 overfit到外部数据。更好的做法是将外部数据也部分分入验证集，尽管后来验证过后发现两种做法没有特别显著的区别。比较有意思的是这样不同的分割方法得分接近的两个提交中有大概 3000 个测试集图片的 label 不完全一样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external = pd.read_csv(<span class="string">'HPAv18RBGY_wodpl.csv'</span>)</span><br><span class="line">train_data_list = pd.concat([train_data_list, external], ignore_index=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>这里我做了一件不是特别科学的事情就是我在分割并加入完整外部数据后的训练集上使用了上面的 oversample 的代码，但是使用 oversample 的分布是官方训练数据里的分布。不过使用了这个以后因为成绩提升过于明显，没有验证是否应该只在原数据上做 oversampling。</p>
+<h2 id="model">Model</h2>
+<p>我使用的是 <code>pretrainedmodels</code> 中的 BN-Inception 和 Xception，还尝试了 SE-ResNeXt50/101 两个相对较深的模型，但是效果并没有太显著的提升。所有模型都使用了在 ImageNet 上 pretrained 的模型。因为 transfer 不同模型代码基本是一样的，所以就贴一个 BN-Inception 的上来，流程是一致的：</p>
+<ol type="1">
+<li>替换首层的 3x7x7x64 的 conv 层为 4x7x7x64 （应对 4 通道的图片输入）
+<ol type="1">
+<li>别的参赛者更倾向于从与训练的</li>
+</ol></li>
+<li>把 feature 部分和 classifier 部分衔接的降维改成 global pooling。fast.ai 中习惯使用 global avg pooling 和 global max pooling concat，之前别的比赛中尝试过，区别基本没有所以这次也没有过多的尝试。</li>
+<li>将最后一个 linear （全链接）层替换成 BN + Dropout + Linear 这样的设定。</li>
+<li>模型输出的是未激活的 logit（因为使用的是 BCEWithLogit 这个 loss function）</li>
+</ol>
+<p>模型代码其中 <code>config</code> 中的 <code>num_classes</code> 是28，其余设置如下，基本是常规的模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_bninception</span><span class="params">(config)</span>:</span></span><br><span class="line">    model = bninception(pretrained=<span class="string">'imagenet'</span>)</span><br><span class="line">    model.global_pool = nn.AdaptiveAvgPool2d(<span class="number">1</span>)</span><br><span class="line">    model.conv1_7x7_s2 = nn.Conv2d(config.channels, <span class="number">64</span>, kernel_size=(<span class="number">7</span>, <span class="number">7</span>), stride=(<span class="number">2</span>, <span class="number">2</span>), padding=(<span class="number">3</span>, <span class="number">3</span>))</span><br><span class="line">    model.last_linear = nn.Sequential(</span><br><span class="line">        nn.BatchNorm1d(<span class="number">1024</span>),</span><br><span class="line">        nn.Dropout(<span class="number">0.3</span>),</span><br><span class="line">        nn.Linear(<span class="number">1024</span>, config.num_classes),</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+<h2 id="training">Training</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">num_classes = <span class="number">28</span></span><br><span class="line">img_width = <span class="number">256</span></span><br><span class="line">img_height = <span class="number">256</span></span><br><span class="line">channels = <span class="number">4</span>  <span class="comment"># RGBY</span></span><br><span class="line">lr = <span class="number">0.001</span></span><br><span class="line">batch_size = <span class="number">48</span></span><br><span class="line">epoch = <span class="number">30</span></span><br><span class="line"></span><br><span class="line">scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode=<span class="string">'min'</span>, factor=<span class="number">0.1</span>, patience=<span class="number">1</span>, cooldown=<span class="number">1</span>, min_lr=<span class="number">0.000001</span>)</span><br><span class="line">optimizer = optim.Adam(model.parameters(), lr=config.lr --&gt; 这是 0.001 , weight_decay=1e-6, amsgrad=True)</span><br><span class="line">criterion = nn.BCEWithLogitsLoss()</span><br></pre></td></tr></table></figure>
+<p>由于是 multilabel 问题，输出 logit 不能再直接 softmax 了，替换成 sigmoid 即可，这里注意的是 sigmoid 之后进行二分的阈值设成 0.5（或者 around 0.5）效果很差，我设置的是 0.15～0.2。训练时计算 F1 Macro 是直接用的固定阈值 0.15</p>
+<p>训练过程中我监控 BCE 和 F1 Macro Loss。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">THRES = <span class="number">0.15</span></span><br><span class="line">loss = criterion(output, target)  <span class="comment"># BCE</span></span><br><span class="line">f1_loss = f1_score(target.cpu().data.numpy(), output.sigmoid().cpu() &gt; THRES, average=<span class="string">'macro'</span>)  <span class="comment"># scikit-learn implementation</span></span><br></pre></td></tr></table></figure>
+<p>基本上，训练集的 BCE 会 converge 到 0.68 上下，验证集的 BCE 也会比较接近这个数字。</p>
+<h2 id="inference">Inference</h2>
+<p>使用完全一样的阈值。这里应该尝试用 OOF 的预测结果做了每个 class 的最优阈值搜索，然并卵。</p>
+<p>没有使用任何 TTA。</p>
+<h2 id="result">Result</h2>
+<p>由于算力限制，我个人的最好单模（5-fold CV ensemble）在 public LB 是 0.601 左右，另一个队友用我的代码跑了一些更大的模型提升了大概～0.01。</p>
+<p>个人的最好成绩是集成了 0.556 (5-fold 256 image BN-Inception) + 0.578（5-fold 512 image BN-Inception）+ 0.575（5-fold 256 image Xception）得到的，更大的图片和模型都交给队友跑了。</p>
+<p>其他队友做了一些 stacking，由于我们的 CV 分割不一样所以我没有参与 stacking。</p>
+<p>大约完赛两周前用简单平均法进行了集成，之后全队开始摸鱼（说到这个，Pavel 小哥直接出去旅游是最强的哈哈哈），从 public LB 第 4 名一路掉到了第 19，不过看其中有几个超过我们的人的分数变化蠕动，感觉是在 overfit LB。后来 private LB 揭榜以后事实证明确实如此... 我们 shake 到了第 9 名。当然其中运气成分也比较大。。</p>
+<p>在地铁上敲出来的初稿，有一些可能不太完善的地方之后修改补充 ：D</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中文/" rel="tag"># 中文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/archives/jan-plan/" rel="next" title="2018总结 & 一月学习计划">
+                <i class="fa fa-chevron-left"></i> 2018总结 & 一月学习计划
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Ji Yang">
+            
+              <p class="site-author-name" itemprop="name">Ji Yang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kulbear" title="GitHub &rarr; https://github.com/kulbear" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.kaggle.com/manyfoldcv" title="Kaggle &rarr; https://www.kaggle.com/manyfoldcv" rel="noopener" target="_blank"><i class="fa fa-fw fa-vk"></i>Kaggle</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.linkedin.com/in/jiyangua/" title="Linkedin &rarr; https://www.linkedin.com/in/jiyangua/" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:jiyang.py@gmail.com" title="E-Mail &rarr; mailto:jiyang.py@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://stackoverflow.com/users/6670143/kulbear" title="StkOvrflow &rarr; https://stackoverflow.com/users/6670143/kulbear" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i>StkOvrflow</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                这里的链接难道不好奇吗？
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://manjusaka.itscoder.com" title="https://manjusaka.itscoder.com" rel="noopener" target="_blank">哈士奇的小窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://js.chenlei.me/archives/" title="http://js.chenlei.me/archives/" rel="noopener" target="_blank">我的田的日记</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.linkedin.com/in/zytong/" title="https://www.linkedin.com/in/zytong/" rel="noopener" target="_blank">童童的领英</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://manyu.site/" title="https://manyu.site/" rel="noopener" target="_blank">鳗鱼的 Blog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/jingkecn" title="https://github.com/jingkecn" rel="noopener" target="_blank">园长的同性交友网站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dataset"><span class="nav-number">2.</span> <span class="nav-text">Dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#external-data"><span class="nav-number">2.1.</span> <span class="nav-text">External Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-augmentation"><span class="nav-number">2.2.</span> <span class="nav-text">Data Augmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#label-distribution-and-oversample"><span class="nav-number">2.3.</span> <span class="nav-text">Label Distribution and Oversample</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cv"><span class="nav-number">2.4.</span> <span class="nav-text">“CV”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model"><span class="nav-number">3.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#training"><span class="nav-number">4.</span> <span class="nav-text">Training</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inference"><span class="nav-number">5.</span> <span class="nav-text">Inference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#result"><span class="nav-number">6.</span> <span class="nav-text">Result</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ji Yang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://sixologist.disqus.com/count.js" async></script>
+  
+
+  
+    <script>
+      var disqus_config = function () {
+        this.page.url = "https://kulbear.github.io/archives/protein/";
+        this.page.identifier = "archives/protein/";
+        this.page.title = 'Kaggle Human Protein Atlas 蛋白质分类比赛总结和复盘';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://sixologist.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(function () {
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          if (offsetTop <= 0) {
+            // load directly when there's no a scrollbar
+            loadComments();
+          } else {
+            $(window).on('scroll.disqus_scroll', function () {
+              // offsetTop may changes because of manually resizing browser window or lazy loading images.
+              var offsetTop = $('#comments').offset().top - $(window).height();
+              var scrollTop = $(window).scrollTop();
+
+              // pre-load comments a bit? (margin or anything else)
+              if (offsetTop - scrollTop < 60) {
+                $(window).off('.disqus_scroll');
+                loadComments();
+              }
+            });
+          }
+        });
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
